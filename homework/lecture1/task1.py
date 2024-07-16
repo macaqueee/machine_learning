@@ -21,7 +21,7 @@ def plot_decision_boundary(pred_func):
     # Plot the contour and training examples
     plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)
     plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Spectral)
-    # plt.show()
+    plt.show()
 
 def activation(x):
     return np.where( x > 0 , 1, 0)
@@ -34,7 +34,7 @@ plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
 
 # initialize weights randomly with mean 0 - [-1; 1]
 w = 2*np.random.random((2,)) - 1 
-LR = 100
+LR = 1
 
 last_error = 0
 first_run = True
@@ -57,7 +57,7 @@ for j in range(LR):
         if (current_error > last_error):
             print("Current error {} is greater than previous error {}".format(current_error, last_error))
             should_terminate_loop = True
-        # if (last_error == error):
+        # if (last_error == current_error):
         #     if (check_counter == counter_threshould):
         #         print('Error has not been changed for last {} iterations. Stopping loop...'.format(counter_threshould))
         #         should_terminate_loop = True
@@ -78,3 +78,5 @@ for j in range(LR):
     w = w + LR * np.dot(X.T, diff)
     first_run = False
     last_error = current_error
+
+# FINAL ERROR = 0.065
