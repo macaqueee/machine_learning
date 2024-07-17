@@ -33,7 +33,7 @@ def plot_decision_boundary(pred_func):
     # Plot the contour and training examples
     plt.contourf(xx, yy, Z, cmap=plt.cm.Spectral)
     plt.scatter(X[:, 0], X[:, 1], c=y, cmap=plt.cm.Spectral)
-    # plt.show()
+    plt.show()
 
 def activation(x):
     return np.where( x > 0 , 1, 0)
@@ -42,14 +42,16 @@ def activation(x):
 np.random.seed(0)
 # X, y = sklearn.datasets.make_moons(200, noise=0.20)
 X, y = sklearn.datasets.make_blobs(200, centers=2, cluster_std=0.9)
-X =  add_constant_column(X, 5)
 
 # Add new column filled with constant to existing matrix
+X =  add_constant_column(X, 5)
 plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
 
 # initialize weights randomly with mean 0 - [-1; 1]
 w = 2*np.random.random((3,)) - 1 
-LR = 100
+
+LR = 0.01
+iterations = 100
 
 last_error = 0
 first_run = True
@@ -57,7 +59,7 @@ check_counter = 0
 counter_threshould = 5
 should_terminate_loop = False
 
-for j in range(LR):
+for j in range(iterations):
     # get preds
     pred = perceptron(w, X)
     
@@ -80,14 +82,15 @@ for j in range(LR):
     #     else: 
     #         check_counter = 0
 
-    if should_terminate_loop:
+    if should_terminate_loop or j == LR - 1:
+        plot_decision_boundary(lambda x: perceptron(w, x))
         break
 
     # draw result
     display.clear_output(wait=True)
-    plot_decision_boundary(lambda x: perceptron(w, x))
+    # plot_decision_boundary(lambda x: perceptron(w, x))
     display.display("Error:" + str(current_error))
-    time.sleep(0.5)
+    # time.sleep(0.5)
     
     # update weights
     w = w + LR * np.dot(X.T, diff)
