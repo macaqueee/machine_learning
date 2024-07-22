@@ -25,7 +25,6 @@ np.random.seed(0)
 # X, y = sklearn.datasets.make_moons(200, noise=0.20)
 X, y = sklearn.datasets.make_blobs(200)
 plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
-plt.show()
 
 # Initialize weights
 w = 2 * np.random.random((2, 3)) - 1
