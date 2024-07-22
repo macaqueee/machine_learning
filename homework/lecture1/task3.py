@@ -22,16 +22,14 @@ def plot_decision_boundary(pred_func):
     plt.show()
 
 np.random.seed(0)
-# X, y = sklearn.datasets.make_moons(200, noise=0.20)
 X, y = sklearn.datasets.make_blobs(200)
 plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
 
 # Initialize weights
 w = 2 * np.random.random((2, 3)) - 1
 
-# Define hyperparameters
 LR = 1
-num_iterations = 10
+iterations = 10
 
 def activation(z):
     exp_z = np.exp(z - np.max(z, axis=1, keepdims=True))
@@ -48,16 +46,16 @@ def calculate_error(y, pred):
     return np.sum(log_likelihood) / m
 
 # Update weight
-def update_weights(X, y, pred, w, lr):
+def update_weights(X, y, pred, w, learning_rate):
     m = X.shape[0]
     y_one_hot = np.zeros((m, np.max(y) + 1))
     y_one_hot[range(m), y] = 1
     grad = np.dot(X.T, (pred - y_one_hot)) / m
-    w -= lr * grad
+    w -= learning_rate * grad
     return w
 
 # Training loop
-for i in range(num_iterations):
+for i in range(iterations):
     pred = predict(X, w)
     error = calculate_error(y, pred)
     
@@ -65,5 +63,7 @@ for i in range(num_iterations):
 
     w = update_weights(X, y, pred, w, LR)
     
-plot_decision_boundary(lambda x: predict(x, w))
+    plot_decision_boundary(lambda x: predict(x, w))
+    
+    
     

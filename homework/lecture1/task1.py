@@ -35,13 +35,11 @@ plt.scatter(X[:,0], X[:,1], s=40, c=y, cmap=plt.cm.Spectral)
 # initialize weights randomly with mean 0 - [-1; 1]
 w = 2*np.random.random((2,)) - 1 
 
-LR = 0.01
+LR = 1
 iterations = 100
 
 last_error = 0
 first_run = True
-check_counter = 0
-counter_threshould = 5
 should_terminate_loop = False
 
 for j in range(iterations):
@@ -58,24 +56,15 @@ for j in range(iterations):
         print('Comparing errors. curent {} and previous {}'.format(current_error, last_error))
         if (current_error > last_error):
             print("Current error {} is greater than previous error {}".format(current_error, last_error))
-            should_terminate_loop = True
-        # if (last_error == current_error):
-        #     if (check_counter == counter_threshould):
-        #         print('Error has not been changed for last {} iterations. Stopping loop...'.format(counter_threshould))
-        #         should_terminate_loop = True
-        #     check_counter += 1
-        # else: 
-        #     check_counter = 0
-
-    if should_terminate_loop or j == LR - 1:
-        print("Stopping loop")
-        break
+            plot_decision_boundary(lambda x: perceptron(w, x))
+            display.display("Error:" + str(current_error))
+            break
 
     # draw result
     display.clear_output(wait=True)
-    # plot_decision_boundary(lambda x: perceptron(w, x))
+    plot_decision_boundary(lambda x: perceptron(w, x))
     display.display("Error:" + str(current_error))
-    # time.sleep(0.5)
+    time.sleep(0.5)
     
     # update weights
     w = w + LR * np.dot(X.T, diff)
